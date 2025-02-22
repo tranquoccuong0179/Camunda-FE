@@ -8,6 +8,7 @@ import { RegisterComponent } from "./app/components/register/register.component"
 import { HomeComponent } from "./app/components/home/home.component";
 import { AuthGuard } from "./app/guards/auth.guard";
 import { UserComponent } from "./app/components/user/user.component";
+import { ProductComponent } from "./app/components/product/product.component";
 
 const routes: Routes = [
   { path: "login", component: LoginComponent },
@@ -15,6 +16,7 @@ const routes: Routes = [
   { path: "home", component: HomeComponent, canActivate: [AuthGuard] },
   { path: "", redirectTo: "/login", pathMatch: "full" },
   { path: "user", component: UserComponent, canActivate: [AuthGuard] },
+  { path: "product", component: ProductComponent },
 ];
 
 @Component({

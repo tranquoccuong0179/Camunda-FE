@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { User } from "../../models/auth.model";
 import { AuthService } from "../../services/auth.service";
 import { CommonModule } from "@angular/common";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "app-home",
@@ -10,9 +11,12 @@ import { CommonModule } from "@angular/common";
   template: `
     <div class="container">
       <header class="header">
-        <h1 class="greeting">
-          Hello, {{ profile?.firstName }} {{ profile?.lastName }}
-        </h1>
+        <div class="header-left">
+          <h1 class="greeting">
+            Hello, {{ profile?.firstName }} {{ profile?.lastName }}
+          </h1>
+          <button class="product-btn" (click)="goToHome()">Products</button>
+        </div>
         <button class="logout-btn" (click)="logout()">Logout</button>
       </header>
 
@@ -64,6 +68,22 @@ import { CommonModule } from "@angular/common";
       .greeting {
         margin: 0;
         font-size: 24px;
+      }
+
+      .product-btn {
+        background-color: #10b981;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      .header-left {
+        display: flex;
+        align-items: center;
+        gap: 10px;
       }
 
       .logout-btn {
@@ -134,7 +154,7 @@ import { CommonModule } from "@angular/common";
 export class HomeComponent implements OnInit {
   profile?: User | null;
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit() {
     this.authService.loadProfileFromAPI();
@@ -150,5 +170,8 @@ export class HomeComponent implements OnInit {
 
   logout() {
     this.authService.logout();
+  }
+  goToHome() {
+    this.router.navigate(["/product"]);
   }
 }

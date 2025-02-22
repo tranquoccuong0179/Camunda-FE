@@ -94,9 +94,11 @@ export class AuthService {
 
         if (roles.includes("ADMIN")) {
           console.log("có admin");
+          localStorage.setItem("role", "admin");
           this.router.navigate(["/user"]);
         } else {
           console.log("Không có");
+          localStorage.setItem("role", "user");
           this.router.navigate(["/home"]);
         }
         // this.isAuthenticatedSubject.next(true);
