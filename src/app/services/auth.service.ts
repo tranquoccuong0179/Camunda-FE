@@ -24,6 +24,7 @@ export class AuthService {
 
   constructor(private http: HttpClient, private router: Router) {
     this.loadProfileFromAPI(); // Tự động lấy profile khi app khởi động
+    this.checkLoginStatus();
   }
 
   //  Lấy thông tin user từ JWT
@@ -98,9 +99,33 @@ export class AuthService {
           console.log("Không có");
           this.router.navigate(["/home"]);
         }
-        this.isAuthenticatedSubject.next(true);
+        // this.isAuthenticatedSubject.next(true);
+        this.checkLoginStatus();
       })
     );
+  }
+
+  private checkLoginStatus(): void {
+    const token = localStorage.getItem("token");
+    if (token && !this.jwtHelper.isTokenExpired(token)) {
+      const decodedToken: any = this.jwtHelper.decodeToken(token);
+      console.log("Thông tin token:", decodedToken);
+
+      const roles = decodedToken?.realm_access?.roles || [];
+      console.log("Vai trò của người dùng:", roles);
+
+      if (roles.includes("ADMIN")) {
+        console.log("Có admin");
+        this.router.navigate(["/user"]);
+      } else {
+        console.log("Không có admin");
+        this.router.navigate(["/home"]);
+      }
+
+      this.isAuthenticatedSubject.next(true);
+    } else {
+      this.isAuthenticatedSubject.next(false);
+    }
   }
 
   getAllUsers(): Observable<{ code: number; data: Users[] }> {
