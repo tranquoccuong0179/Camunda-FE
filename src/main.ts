@@ -9,6 +9,9 @@ import { HomeComponent } from "./app/components/home/home.component";
 import { AuthGuard } from "./app/guards/auth.guard";
 import { UserComponent } from "./app/components/user/user.component";
 import { ProductComponent } from "./app/components/product/product.component";
+import { AddProductComponent } from "./app/components/product/add-product.component";
+import { OrderComponent } from "./app/components/order/order.component";
+import { OrderAdminComponent } from "./app/components/order-admin/order-admin.component";
 
 const routes: Routes = [
   { path: "login", component: LoginComponent },
@@ -17,6 +20,9 @@ const routes: Routes = [
   { path: "", redirectTo: "/login", pathMatch: "full" },
   { path: "user", component: UserComponent, canActivate: [AuthGuard] },
   { path: "product", component: ProductComponent },
+  { path: "product/add", component: AddProductComponent },
+  { path: "order", component: OrderComponent },
+  { path: "order/admin", component: OrderAdminComponent },
 ];
 
 @Component({

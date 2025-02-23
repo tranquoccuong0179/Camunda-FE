@@ -1,3 +1,4 @@
+import { Router } from "@angular/router";
 import { AuthService } from "../../services/auth.service";
 import { Component, OnInit } from "@angular/core";
 import { CommonModule } from "@angular/common";
@@ -10,16 +11,25 @@ import { User, Users } from "../../models/auth.model";
   template: `
     <div class="container">
       <header class="header">
+        <div class="nav-buttons">
+          <button class="product-btn" (click)="navigateTo('product')">
+            Product
+          </button>
+          <button class="product-btn" (click)="navigateTo('order/admin')">
+            Order
+          </button>
+        </div>
+
         <h1 class="title">User Management</h1>
+      </header>
+
+      <main class="content">
         <div class="actions">
           <button class="download-btn" (click)="downloadPdf()">Tải PDF</button>
           <button class="download-btn" (click)="downloadExcel()">
             Tải Excel
           </button>
         </div>
-      </header>
-
-      <main class="content">
         <table class="user-table">
           <thead>
             <tr>
@@ -57,16 +67,42 @@ import { User, Users } from "../../models/auth.model";
       }
 
       .header {
+        display: flex;
+        align-items: center;
+        justify-content: center;
         background-color: #1d4ed8;
         color: white;
         padding: 20px;
-        text-align: center;
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        position: relative;
+      }
+
+      .nav-buttons {
+        position: absolute;
+        gap: 16px;
+        left: 20px;
+        display: flex;
+      }
+
+      .product-btn {
+        background-color: #10b981;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+      }
+
+      .product-btn:hover {
+        background-color: #059669;
       }
 
       .title {
         margin: 0;
         font-size: 24px;
+        flex-grow: 1;
+        text-align: center;
       }
 
       .content {
@@ -159,7 +195,7 @@ import { User, Users } from "../../models/auth.model";
 export class UserComponent implements OnInit {
   users: Users[] = [];
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private route: Router) {}
 
   ngOnInit(): void {
     this.loadUsers();
@@ -196,5 +232,9 @@ export class UserComponent implements OnInit {
 
   downloadExcel(): void {
     this.authService.downloadExcel();
+  }
+
+  navigateTo(route: string): void {
+    this.route.navigate([`/${route}`]);
   }
 }

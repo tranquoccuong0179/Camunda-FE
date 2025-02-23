@@ -16,6 +16,7 @@ import { Router } from "@angular/router";
             Hello, {{ profile?.firstName }} {{ profile?.lastName }}
           </h1>
           <button class="product-btn" (click)="goToHome()">Products</button>
+          <button class="product-btn" (click)="goToOrder()">Orders</button>
         </div>
         <button class="logout-btn" (click)="logout()">Logout</button>
       </header>
@@ -173,5 +174,9 @@ export class HomeComponent implements OnInit {
   }
   goToHome() {
     this.router.navigate(["/product"]);
+  }
+
+  goToOrder() {
+    this.router.navigate(["/order"]);
   }
 }
